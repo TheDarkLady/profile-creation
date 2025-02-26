@@ -15,10 +15,10 @@ const Header = () => {
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
           Profile Creation
         </Typography>
-        <IconButton >
+        <IconButton  >
             <Avatar ></Avatar>
         </IconButton>
-        <Button variant="contained" color="primary"> Sign Up</Button>
+        <Button variant="contained" style={{backgroundColor:"#474BCA"}}> Sign Up</Button>
       </Toolbar>
       <Divider />
     </div>
