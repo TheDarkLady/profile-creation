@@ -8,10 +8,12 @@ const Signup = () => {
     <Container sx={{
         height:"100vh",
         display:"flex",
+        flexDirection:"column",
         justifyContent:"center",
         alignItems: "center",
-        
-    }}>
+        gap:"50px"
+    }}  disableGutters>
+     <Typography variant='h2' sx={{fontFamily:"Inter", fontSize:"40px", fontWeight:"600"}}> You can sign up here</Typography>
       <Container
               sx={{
                 display: "flex",
@@ -19,8 +21,9 @@ const Signup = () => {
                 justifyContent: "center",
                 alignItems: 'center',
                 position: "relative",
+                
               }}
-              disableGutters
+             
             >
               <FormLabel
                 sx={{
@@ -125,7 +128,7 @@ const Signup = () => {
                     position: "absolute",
                     left: "0px",
                     color: "#000",
-                    width: "75%",
+                    width: "74%",
                   }}
                 >
                   <VisibilityOffIcon />
