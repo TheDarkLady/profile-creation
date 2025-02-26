@@ -2,7 +2,6 @@ import { Divider, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
-import Avatar from '@mui/material/Avatar';
 
 
 const Header = () => {
@@ -15,10 +14,7 @@ const Header = () => {
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
           Profile Creation
         </Typography>
-        <IconButton  >
-            <Avatar ></Avatar>
-        </IconButton>
-        <Button variant="contained" style={{backgroundColor:"#474BCA"}}> Sign Up</Button>
+        <Button variant="contained" sx={{backgroundColor:"#474BCA", pl:"50px", pr:"50px", pt:"10px", pb:"10px"}}> Sign Up</Button>
       </Toolbar>
       <Divider />
     </div>
