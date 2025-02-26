@@ -1,9 +1,7 @@
 import { Container, Typography, FormLabel, Input, IconButton, Button } from '@mui/material'
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-    const navigate = useNavigate();
   return (
     <Container sx={{
         height:"100vh",

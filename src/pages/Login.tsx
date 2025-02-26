@@ -7,7 +7,6 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import Header from "../components/Header";
 import loginImage from "../assets/Images/login-page.png";
 import googleIcon from "../assets/Images/google-icon.png";
 import { Input } from "@mui/material";
