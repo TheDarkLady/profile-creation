@@ -1,19 +1,33 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Routes } from 'react-router-dom'
 import './App.css'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import { Dashboard } from '@mui/icons-material'
+import AppLayout from './components/AppLayout'
 
 function App() {
 
-  return (
-    <Router>
-    <Routes>
-      <Route path='/' element={<Login />} />
-      <Route path='/signup' element={<Signup />} />
-    </Routes>
-    
-    </Router>
-  )
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <AppLayout />,
+      children: [
+        {
+          path: '/',
+          element: <Dashboard />
+        },
+        {
+          path: '/login',
+          element: <Login />
+        },
+        {
+          path: '/signup',
+          element: <Signup />
+        }
+      ]
+    },
+  ])
+  return <RouterProvider router={router}/>
 }
 
 export default App

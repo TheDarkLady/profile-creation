@@ -24,7 +24,6 @@ const Login = () => {
         width: "100vw",
       }}
     >
-      <Header />
       <Container
         sx={{
           height: "auto",
