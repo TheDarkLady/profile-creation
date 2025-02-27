@@ -1,24 +1,47 @@
-import { Avatar, Divider, Toolbar, Typography } from "@mui/material";
+import { Avatar, Divider, Switch, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
+import { useState } from "react";
 
-const MainHeader = () => {
-    return (
-      <div className="header-container">
-        <Toolbar>
-          <IconButton>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h5" sx={{ flexGrow: 1 }}>
-            Profile Creation
-          </Typography>
-          <IconButton>
-            <Avatar />
-          </IconButton>
-        </Toolbar>
-        <Divider />
-      </div>
-    );
+interface Props {
+  setMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default MainHeader
+const MainHeader: React.FC<Props> = ({ setMode }) => {
+  const [checked, setChecked] = useState<boolean>(true)
+  const handleChange = () => {
+    setMode((prevMode) => {
+      console.log("Dark Mode Before Update:", prevMode);
+      const newMode = !prevMode;
+      console.log("Dark Mode After Update:", newMode);
+      return newMode;
+    });
+    setChecked(!checked)
+  };
+
+  return (
+    <div className="header-container">
+      <Toolbar>
+        <IconButton>
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h5" sx={{ flexGrow: 1 }}>
+          Profile Creation
+        </Typography>
+        <Switch
+          checked={checked}
+          onChange={(e) => {
+            console.log("Toggle Clicked");
+            handleChange()
+          }}
+        />
+        <IconButton>
+          <Avatar />
+        </IconButton>
+      </Toolbar>
+      <Divider />
+    </div>
+  );
+};
+
+export default MainHeader;
