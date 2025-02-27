@@ -1,7 +1,7 @@
 import { Divider, Switch, Toolbar, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   mode: boolean;
@@ -9,8 +9,12 @@ interface Props {
 }
 
 
-const Header: React.FC<Props> = ({ mode, setMode }) => {
+const Header: React.FC<Props> = ({ setMode }) => {
+  
   const [checked, setChecked] = useState<boolean>(true)
+  const navigate = useNavigate()
+  const location = useLocation();
+  const isloginpage = location.pathname === '/login'
   const handleChange = () => {
     setMode((prevMode) => {
       console.log("Dark Mode Before Update:", prevMode);
@@ -20,6 +24,10 @@ const Header: React.FC<Props> = ({ mode, setMode }) => {
     });
     setChecked(!checked)
   };
+
+  const handleNavigate = () => {
+    isloginpage ? navigate('/signup') : navigate('/login')
+  }
   return (
     <div className="header-container">
       <Toolbar>
@@ -33,7 +41,9 @@ const Header: React.FC<Props> = ({ mode, setMode }) => {
                     handleChange()
                   }}
                 />
-        <Button variant="contained" sx={{backgroundColor:"#474BCA", pl:"50px", pr:"50px", pt:"10px", pb:"10px"}} onClick={()=> navigate('/signup')}> Sign Up</Button>
+        <Button variant="contained" sx={{backgroundColor:"#474BCA", pl:"50px", pr:"50px", pt:"10px", pb:"10px"}} onClick={handleNavigate}> 
+          {isloginpage ? "sign up" : "Login"}
+        </Button>
       </Toolbar>
       <Divider />
     </div>
