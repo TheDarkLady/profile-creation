@@ -6,6 +6,7 @@ import {
   Grid2,
   IconButton,
   Typography,
+  useTheme
 } from "@mui/material";
 import loginImage from "../assets/Images/login-page.png";
 import googleIcon from "../assets/Images/google-icon.png";
@@ -14,12 +15,15 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
+  console.log("Theme", theme.palette.mode);
+  
   return (
     <div
       className="login-container"
       style={{
-        backgroundColor: "#F9E6E6",
+        backgroundColor: theme.palette.background.default,
         width: "100vw",
       }}
     >
@@ -60,6 +64,7 @@ const Login = () => {
                 fontSize: "48px",
                 fontWeight: "700",
                 textAlign: { xs: "center", md: "left" },
+                color:theme.palette.primary.main
               }}
             >
               Login Now
@@ -72,6 +77,7 @@ const Login = () => {
                 fontSize: "20px",
                 fontWeight: "400",
                 textAlign: { xs: "center", md: "left" },
+                color:theme.palette.primary.main
               }}
             >
               Hi, Welcome back 👋{" "}
@@ -107,14 +113,15 @@ const Login = () => {
             >
               <Grid2
                 size={{ xs: 3 }}
-                sx={{ border: "1px solid #00000040", height: "1px" }}
+                sx={{ border: theme.palette.secondary.main, borderWidth:"1px", borderStyle:"solid", height: "1px" }}
               ></Grid2>
               <Typography
-                color="#00000040"
+                
                 sx={{
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
+                  color:theme.palette.secondary.main
                 }}
               >
                 {" "}
@@ -122,7 +129,7 @@ const Login = () => {
               </Typography>
               <Grid2
                 size={{ xs: 3 }}
-                sx={{ border: "1px solid #00000040", height: "1px" }}
+                sx={{  border: theme.palette.secondary.main, borderWidth:"1px", borderStyle:"solid", height: "1px" }}
               ></Grid2>
             </Container>
             <Container
@@ -141,7 +148,7 @@ const Login = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: "#000",
+                  color: theme.palette.primary.main,
                 }}
               >
                 Email
@@ -157,7 +164,7 @@ const Login = () => {
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
-                  color: "#fff",
+                  color: theme.palette.primary.light,
                 }}
                 disableUnderline
                 placeholder="Enter your email id"
@@ -168,7 +175,7 @@ const Login = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: "#000",
+                  color: theme.palette.primary.main,
                 }}
               >
                 Password
@@ -193,7 +200,7 @@ const Login = () => {
                     fontFamily: "Inter",
                     fontSize: "15px",
                     fontWeight: "500",
-                    color: "#fff",
+                    color: theme.palette.primary.light,
                   }}
                   disableUnderline
                   placeholder="Enter your password"
@@ -204,7 +211,7 @@ const Login = () => {
                     justifyContent: "flex-end",
                     position: "absolute",
                     left: "0px",
-                    color: "#000",
+                    color: theme.palette.primary.main,
                     width: "75%",
                   }}
                 >
@@ -233,10 +240,10 @@ const Login = () => {
                   }}
                   disableGutters
                 >
-                  <Checkbox size="small"></Checkbox>
+                  <Checkbox size="small" sx={{color:theme.palette.primary.light}}></Checkbox>
                   <Typography
                     sx={{
-                      color: "#000",
+                      color: theme.palette.primary.main,
                       fontFamily: "Inter",
                       fontSize: "15px",
                       fontWeight: "500",
@@ -247,7 +254,7 @@ const Login = () => {
                 </Container>
                 <Typography
                   sx={{
-                    color: "#474BCA",
+                    color: theme.palette.primary.main,
                     fontFamily: "Inter",
                     fontSize: "15px",
                     fontWeight: "600",
@@ -266,6 +273,7 @@ const Login = () => {
                   width: "75%",
                   mt: "20px",
                 }}
+                onClick={() => navigate('/')}
               >
                 Login
               </Button>
@@ -277,6 +285,7 @@ const Login = () => {
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
+                  color:theme.palette.primary.main
                 }}
               >
                 Not registered yet?{" "}

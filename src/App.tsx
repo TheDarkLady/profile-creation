@@ -4,8 +4,9 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashoard'
 import AppLayout from './components/AppLayout'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { CssBaseline } from '@mui/material'
+import { createTheme } from '@mui/material/styles'
+import { ThemeProvider , CssBaseline } from '@mui/material'
+import { lightTheme, darkTheme } from './components/ui/theme'
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from 'react'
 
@@ -13,11 +14,11 @@ function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [mode, setMode] = useState<boolean>(() => prefersDarkMode);
 
-  const appTheme = createTheme({
-    palette: {
-      mode: mode ? "dark" : "light"
-    }
-  });
+  // const appTheme = createTheme({
+  //   palette: {
+  //     mode: mode ? "dark" : "light"
+  //   }
+  // });
 
   const router = createBrowserRouter([
     {
@@ -32,7 +33,7 @@ function App() {
   ]);
 
   return (
-    <ThemeProvider theme={appTheme}>
+    <ThemeProvider theme={mode ? darkTheme : lightTheme}>
       <CssBaseline />
       <RouterProvider router={router} />
     </ThemeProvider>

@@ -1,7 +1,9 @@
 import { Container, Typography, FormLabel, Input, IconButton, Button } from '@mui/material'
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useTheme } from '@mui/material/styles';
 
 const Signup = () => {
+  const theme = useTheme();
   return (
     <Container sx={{
         height:"100vh",
@@ -29,7 +31,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: "#000",
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
                   textAlign:"left",
                   width:"50%"
                 }}
@@ -47,7 +49,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
-                  color: "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
                 }}
                 disableUnderline
                 placeholder="Enter your Name"
@@ -58,7 +60,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: "#000",
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
                   textAlign:"left",
                   width:"50%"
                 }}
@@ -76,7 +78,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
-                  color: "#fff",
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
                 }}
                 disableUnderline
                 placeholder="Enter your email id"
@@ -87,7 +89,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: "#000",
+                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
                   textAlign:"left",
                   width:"50%"
                 }}
@@ -114,7 +116,7 @@ const Signup = () => {
                     fontFamily: "Inter",
                     fontSize: "15px",
                     fontWeight: "500",
-                    color: "#fff",
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
                   }}
                   disableUnderline
                   placeholder="Enter your password"
@@ -124,9 +126,10 @@ const Signup = () => {
                     display: "flex",
                     justifyContent: "flex-end",
                     position: "absolute",
-                    left: "0px",
-                    color: "#000",
-                    width: "74%",
+                    right: "27%",
+                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                    width: "10%",
+                    zIndex:"9"
                   }}
                 >
                   <VisibilityOffIcon />
