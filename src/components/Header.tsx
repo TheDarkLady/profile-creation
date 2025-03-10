@@ -33,7 +33,7 @@ const Header: React.FC<Props> = ({ setMode }) => {
     <div className="header-container">
       <Toolbar>
         <Typography variant="h5" sx={{ flexGrow: 1, color:theme.palette.primary.main}}>
-          Profile Creation
+         User Profile Creation
         </Typography>
         <Switch
                   checked={checked}

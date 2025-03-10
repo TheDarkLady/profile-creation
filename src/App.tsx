@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+// import Dashboard from './pages/Dashoard'
 import Dashboard from './pages/Dashoard'
 import AppLayout from './components/AppLayout'
 import { createTheme } from '@mui/material/styles'
@@ -25,7 +26,7 @@ function App() {
       path: '/',
       element: <AppLayout  setMode={setMode} />,
       children: [
-        { path: '/', element: <Dashboard /> },
+        { path: '/', element: <Dashboard />},
         { path: '/login', element: <Login /> },
         { path: '/signup', element: <Signup /> }
       ]

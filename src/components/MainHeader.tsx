@@ -1,4 +1,4 @@
-import { Avatar, Divider, Switch, Toolbar, Typography } from "@mui/material";
+import { Avatar, Divider, Switch, Toolbar, Typography, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 import { useState } from "react";
@@ -8,6 +8,7 @@ interface Props {
 }
 
 const MainHeader: React.FC<Props> = ({ setMode }) => {
+  const theme = useTheme();
   const [checked, setChecked] = useState<boolean>(true)
   const handleChange = () => {
     setMode((prevMode) => {
@@ -23,10 +24,10 @@ const MainHeader: React.FC<Props> = ({ setMode }) => {
     <div className="header-container">
       <Toolbar>
         <IconButton>
-          <MenuIcon />
+          <MenuIcon sx={{color:theme.palette.secondary.main}}/>
         </IconButton>
-        <Typography variant="h5" sx={{ flexGrow: 1 }}>
-          Profile Creation
+        <Typography variant="h5" sx={{ flexGrow: 1, color:theme.palette.primary.main }}>
+          User Profile Creation
         </Typography>
         <Switch
           checked={checked}

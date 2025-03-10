@@ -1,10 +1,53 @@
-import { Container, Typography, FormLabel, Input, IconButton, Button } from '@mui/material'
+import { Container, Typography, FormLabel, Input, IconButton, Button, GlobalStyles } from '@mui/material'
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useTheme } from '@mui/material/styles';
+import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const theme = useTheme();
+  const globalStyles = (
+    <GlobalStyles
+      styles={{
+        "input:-webkit-autofill": {
+          WebkitBoxShadow: "0 0 0px 1000px #FFA3BE inset !important",
+          WebkitTextFillColor: theme.palette.primary.main, 
+        },
+      }}
+    />
+  );
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); 
+  const [name, setName] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  // const [formData, setFormData] = useState<FormData>({
+  //   name:'',
+  //   email:'',
+  //   password:''
+  // });
+  // const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+  //   const {name, value} = e.target;
+  //   setFormData(prevState => ({
+  //     ...prevState,
+  //     [name]:value
+  //   }));
+
+  // }
+
+  const handleSignUp = () => {
+    // navigate('/')
+    console.log("Name", name);
+    console.log("Email", email);
+    console.log("Password", password);
+    // console.log("FormData", formData);
+    
+    
+  }
   return (
+    <>
+    {globalStyles}
     <Container sx={{
         height:"100vh",
         display:"flex",
@@ -13,7 +56,7 @@ const Signup = () => {
         alignItems: "center",
         gap:"50px"
     }}  disableGutters>
-     <Typography variant='h2' sx={{fontFamily:"Inter", fontSize:"40px", fontWeight:"600"}}> You can sign up here</Typography>
+     <Typography variant='h2' sx={{fontFamily:"Inter", fontSize:"40px", fontWeight:"600", color:theme.palette.primary.main}}> You can sign up here</Typography>
       <Container
               sx={{
                 display: "flex",
@@ -31,7 +74,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  color:theme.palette.primary.main,
                   textAlign:"left",
                   width:"50%"
                 }}
@@ -39,7 +82,8 @@ const Signup = () => {
                 Name
               </FormLabel>
               <Input
-                type="email"
+                type="text"
+                name='name'
                 sx={{
                   width: "50%",
                   backgroundColor: "#FFA3BE",
@@ -49,10 +93,12 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
-                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  color:theme.palette.primary.main,
                 }}
                 disableUnderline
                 placeholder="Enter your Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <FormLabel
                 sx={{
@@ -60,7 +106,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  color:theme.palette.primary.main,
                   textAlign:"left",
                   width:"50%"
                 }}
@@ -69,19 +115,30 @@ const Signup = () => {
               </FormLabel>
               <Input
                 type="email"
+                name='email'
+                
                 sx={{
                   width: "50%",
                   backgroundColor: "#FFA3BE",
                   borderRadius: "5px",
                   padding: "5px 15px",
-                  mb: "20px",
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
-                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  color: theme.palette.primary.main,
+                  mb:"20px"
+                }}
+                inputProps={{
+                  style: {
+                    backgroundColor: "#FFA3BE",
+                  },
                 }}
                 disableUnderline
                 placeholder="Enter your email id"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                }}
               />
               <FormLabel
                 sx={{
@@ -89,7 +146,7 @@ const Signup = () => {
                   fontFamily: "Inter",
                   fontSize: "18px",
                   fontWeight: "600",
-                  color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                  color:theme.palette.primary.main,
                   textAlign:"left",
                   width:"50%"
                 }}
@@ -102,37 +159,44 @@ const Signup = () => {
                   display: "flex",
                   justifyContent: "flex-start",
                   m: "0px",
+                  backgroundColor: "#FFA3BE",
+                  borderRadius: "5px",
                 }}
                 disableGutters
               >
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
+                  name='password'
                   sx={{
                     width: "100%",
-                    backgroundColor: "#FFA3BE",
+                    
                     borderRadius: "5px",
                     padding: "5px 15px",
-                    mb: "20px",
                     fontFamily: "Inter",
                     fontSize: "15px",
                     fontWeight: "500",
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                    color:theme.palette.primary.main,
                   }}
                   disableUnderline
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                  }}
                 />
                 <IconButton
                   sx={{
                     display: "flex",
                     justifyContent: "flex-end",
-                    position: "absolute",
-                    right: "27%",
-                    color: theme.palette.mode === "dark" ? "#fff" : "#000",
+                    color:theme.palette.primary.main,
                     width: "10%",
                     zIndex:"9"
                   }}
+                  onClick={() => setShowPassword((prev) => !prev)}
+
                 >
-                  <VisibilityOffIcon />
+                  {/* <VisibilityOffIcon /> */}
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />} 
                 </IconButton>
               </Container>
               <Button
@@ -145,11 +209,13 @@ const Signup = () => {
                   width: "50%",
                   mt: "20px",
                 }}
+                onClick={handleSignUp}
               >
                 Sign Up
               </Button>
             </Container>
     </Container>
+    </>
   )
 }
 

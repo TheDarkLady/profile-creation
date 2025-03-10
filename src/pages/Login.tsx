@@ -13,12 +13,21 @@ import googleIcon from "../assets/Images/google-icon.png";
 import { Input } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  console.log("Theme", theme.palette.mode);
-  
+  // console.log("Theme", theme.palette.mode);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("")
+
+  const handleLogin = () => {
+    navigate('/');
+    console.log("email", email);
+    console.log("password", password);
+    
+  }
   return (
     <div
       className="login-container"
@@ -168,6 +177,10 @@ const Login = () => {
                 }}
                 disableUnderline
                 placeholder="Enter your email id"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                }}
               />
               <FormLabel
                 sx={{
@@ -185,6 +198,8 @@ const Login = () => {
                   width: "75%",
                   display: "flex",
                   justifyContent: "flex-start",
+                  backgroundColor: "#FFA3BE",
+                  borderRadius: "5px",
                   m: "0px",
                 }}
                 disableGutters
@@ -195,8 +210,7 @@ const Login = () => {
                     width: "100%",
                     backgroundColor: "#FFA3BE",
                     borderRadius: "5px",
-                    padding: "5px 15px",
-                    mb: "20px",
+                    padding: "0px 15px",
                     fontFamily: "Inter",
                     fontSize: "15px",
                     fontWeight: "500",
@@ -204,15 +218,18 @@ const Login = () => {
                   }}
                   disableUnderline
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e)=> {
+                    setPassword(e.target.value)
+                  }}
                 />
                 <IconButton
                   sx={{
                     display: "flex",
                     justifyContent: "flex-end",
-                    position: "absolute",
                     left: "0px",
                     color: theme.palette.primary.main,
-                    width: "75%",
+                    width: "15%",
                   }}
                 >
                   <VisibilityOffIcon />
@@ -273,7 +290,7 @@ const Login = () => {
                   width: "75%",
                   mt: "20px",
                 }}
-                onClick={() => navigate('/')}
+                onClick={handleLogin}
               >
                 Login
               </Button>
