@@ -4,6 +4,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useTheme } from '@mui/material/styles';
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase/firebase'
 
 const Signup = () => {
   const theme = useTheme();
