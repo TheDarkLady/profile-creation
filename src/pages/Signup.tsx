@@ -4,7 +4,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useTheme } from '@mui/material/styles';
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/firebase'
+import { auth } from '../firebase/firebase';
+ import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = () => {
   const theme = useTheme();
@@ -37,13 +38,22 @@ const Signup = () => {
 
   // }
 
-  const handleSignUp = () => {
+  const handleSignUp = async(e:ChangeEvent<HTMLInputElement>) => {
     // navigate('/')
-    console.log("Name", name);
-    console.log("Email", email);
-    console.log("Password", password);
+    // console.log("Name", name);
+    // console.log("Email", email);
+    // console.log("Password", password);
     // console.log("FormData", formData);
-    
+    e.preventDefault();
+    try{
+      const response = await createUserWithEmailAndPassword(auth, email, password )
+      console.log("signup successful : ", response);
+      navigate('/login')
+    }
+    catch(e){
+      console.log("error", e);
+      
+    }
     
   }
   return (
