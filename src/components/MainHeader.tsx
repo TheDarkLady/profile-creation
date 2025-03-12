@@ -5,9 +5,12 @@ import { useState } from "react";
 
 interface Props {
   setMode: React.Dispatch<React.SetStateAction<boolean>>;
+  user: React.Dispatch<React.SetStateAction<{} | null>>;
 }
 
-const MainHeader: React.FC<Props> = ({ setMode }) => {
+const MainHeader: React.FC<Props> = ({ setMode, user }) => {
+  console.log("user from mainheader", user);
+  
   const theme = useTheme();
   const [checked, setChecked] = useState<boolean>(true)
   const handleChange = () => {
@@ -37,7 +40,7 @@ const MainHeader: React.FC<Props> = ({ setMode }) => {
           }}
         />
         <IconButton>
-          <Avatar />
+        {user ? <Avatar alt="profile pic" src={user.profilePic} /> : <Avatar />}
         </IconButton>
       </Toolbar>
       <Divider />

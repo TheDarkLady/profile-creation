@@ -12,18 +12,21 @@ import loginImage from "../assets/Images/login-page.png";
 import googleIcon from "../assets/Images/google-icon.png";
 import { Input } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const Login = () => {
+
   const theme = useTheme();
+  const { setUser } = useOutletContext<{ setUser: (user: User) => void }>();
   const navigate = useNavigate();
   // console.log("Theme", theme.palette.mode);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  
 
   const handleLogin = async () => {
     try {
@@ -38,12 +41,28 @@ const Login = () => {
     // console.log("password", password);
   };
 
-  const handleLoginWithGoogle = () => {
+  const handleLoginWithGoogle = async() => {
     const provider = new GoogleAuthProvider(); 
-    signInWithPopup(auth, provider).then(async(result) => {
+    // signInWithPopup(auth, provider).then(async(result) => {
+    //   console.log("google login successful:", result);
+    //   navigate("/")
+    // })
+    try{
+      const result = await signInWithPopup(auth, provider);
       console.log("google login successful:", result);
+      const user = result.user
+      setUser({
+        name:user.displayName,
+        email:user.email,
+        profilePic: user.photoURL
+      })
       navigate("/")
-    })
+    }
+    catch(e){
+      console.log("Google signin error:", e);
+      
+    }
+
   }
   return (
     <div
