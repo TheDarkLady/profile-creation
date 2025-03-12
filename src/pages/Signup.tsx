@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase/firebase';
- import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = () => {
   const theme = useTheme();

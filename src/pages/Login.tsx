@@ -6,7 +6,7 @@ import {
   Grid2,
   IconButton,
   Typography,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import loginImage from "../assets/Images/login-page.png";
 import googleIcon from "../assets/Images/google-icon.png";
@@ -14,19 +14,36 @@ import { Input } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { auth } from "../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   // console.log("Theme", theme.palette.mode);
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("")
+  const [password, setPassword] = useState<string>("");
 
-  const handleLogin = () => {
-    navigate('/');
-    console.log("email", email);
-    console.log("password", password);
-    
+  const handleLogin = async () => {
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log("login successful:", response);
+      navigate("/");
+    } catch (e) {
+      console.log("login error:", e);
+    }
+
+    // console.log("email", email);
+    // console.log("password", password);
+  };
+
+  const handleLoginWithGoogle = () => {
+    const provider = new GoogleAuthProvider(); 
+    signInWithPopup(auth, provider).then(async(result) => {
+      console.log("google login successful:", result);
+      navigate("/")
+    })
   }
   return (
     <div
@@ -73,7 +90,7 @@ const Login = () => {
                 fontSize: "48px",
                 fontWeight: "700",
                 textAlign: { xs: "center", md: "left" },
-                color:theme.palette.primary.main
+                color: theme.palette.primary.main,
               }}
             >
               Login Now
@@ -86,7 +103,7 @@ const Login = () => {
                 fontSize: "20px",
                 fontWeight: "400",
                 textAlign: { xs: "center", md: "left" },
-                color:theme.palette.primary.main
+                color: theme.palette.primary.main,
               }}
             >
               Hi, Welcome back 👋{" "}
@@ -102,6 +119,7 @@ const Login = () => {
                 fontSize: "15px",
                 fontWeight: "500",
               }}
+              onClick={handleLoginWithGoogle}
             >
               <img src={googleIcon} alt="" />
               Login with Google
@@ -122,15 +140,19 @@ const Login = () => {
             >
               <Grid2
                 size={{ xs: 3 }}
-                sx={{ border: theme.palette.secondary.main, borderWidth:"1px", borderStyle:"solid", height: "1px" }}
+                sx={{
+                  border: theme.palette.secondary.main,
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                  height: "1px",
+                }}
               ></Grid2>
               <Typography
-                
                 sx={{
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
-                  color:theme.palette.secondary.main
+                  color: theme.palette.secondary.main,
                 }}
               >
                 {" "}
@@ -138,7 +160,12 @@ const Login = () => {
               </Typography>
               <Grid2
                 size={{ xs: 3 }}
-                sx={{  border: theme.palette.secondary.main, borderWidth:"1px", borderStyle:"solid", height: "1px" }}
+                sx={{
+                  border: theme.palette.secondary.main,
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                  height: "1px",
+                }}
               ></Grid2>
             </Container>
             <Container
@@ -179,7 +206,7 @@ const Login = () => {
                 placeholder="Enter your email id"
                 value={email}
                 onChange={(e) => {
-                  setEmail(e.target.value)
+                  setEmail(e.target.value);
                 }}
               />
               <FormLabel
@@ -219,8 +246,8 @@ const Login = () => {
                   disableUnderline
                   placeholder="Enter your password"
                   value={password}
-                  onChange={(e)=> {
-                    setPassword(e.target.value)
+                  onChange={(e) => {
+                    setPassword(e.target.value);
                   }}
                 />
                 <IconButton
@@ -257,7 +284,10 @@ const Login = () => {
                   }}
                   disableGutters
                 >
-                  <Checkbox size="small" sx={{color:theme.palette.primary.light}}></Checkbox>
+                  <Checkbox
+                    size="small"
+                    sx={{ color: theme.palette.primary.light }}
+                  ></Checkbox>
                   <Typography
                     sx={{
                       color: theme.palette.primary.main,
@@ -302,13 +332,17 @@ const Login = () => {
                   fontFamily: "Inter",
                   fontSize: "15px",
                   fontWeight: "500",
-                  color:theme.palette.primary.main
+                  color: theme.palette.primary.main,
                 }}
               >
                 Not registered yet?{" "}
                 <span style={{ color: "#474BCA" }}>Create an account</span>{" "}
                 <span
-                  style={{ color: "#FFA3BE", textDecoration: "underline", cursor:"pointer" }}
+                  style={{
+                    color: "#FFA3BE",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
                   onClick={() => navigate("/signup")}
                 >
                   {" "}
