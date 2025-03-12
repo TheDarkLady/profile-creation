@@ -49,6 +49,7 @@ const Signup = () => {
       const response = await createUserWithEmailAndPassword(auth, email, password )
       console.log("signup successful : ", response);
       navigate('/login')
+     
     }
     catch(e){
       console.log("error", e);
