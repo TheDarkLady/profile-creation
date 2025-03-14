@@ -10,6 +10,9 @@ const lightTheme = createTheme({
         },
         secondary:{
             main: "#00000040"
+        },
+        success:{
+            main:"#FFA3BE"
         }
     }
 });
@@ -24,6 +27,9 @@ const darkTheme = createTheme({
         },
         secondary:{
             main:"#fff"
+        },
+        success:{
+            main:"#FFA3BE"
         }
     }
 })

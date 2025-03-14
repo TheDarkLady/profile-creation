@@ -18,7 +18,7 @@ const AppLayout : React.FC<Props> = ({
   return (
     <>
      {isLoginPage || isSignupPage ? <Header setMode={setMode} /> : <MainHeader setMode={setMode} user={user}/>}
-     <Outlet context={{setUser}}/>
+     <Outlet context={{user ,setUser}}/>
     </>
   )
 }
