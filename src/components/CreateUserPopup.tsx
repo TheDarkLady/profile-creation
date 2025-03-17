@@ -9,6 +9,7 @@ import {
   Button,
   useTheme,
 } from "@mui/material";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function CreateUserPopup() {
   const theme = useTheme();
@@ -19,6 +20,8 @@ function CreateUserPopup() {
     email: "",
     department: "",
   });
+
+
 
   return (
     <div>
@@ -32,6 +35,60 @@ function CreateUserPopup() {
         }}
         disableGutters
       >
+         <FormLabel
+          sx={{
+            mb: "10px",
+            fontFamily: "Inter",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: theme.palette.primary.main,
+          }}
+        >
+          First Name
+        </FormLabel>
+        <Input
+          type="text"
+          sx={{
+            width: "75%",
+            backgroundColor: "#FFA3BE",
+            borderRadius: "5px",
+            padding: "5px 15px",
+            mb: "20px",
+            fontFamily: "Inter",
+            fontSize: "15px",
+            fontWeight: "500",
+            color: theme.palette.primary.light,
+          }}
+          disableUnderline
+          placeholder="Enter your first name"
+        />
+         <FormLabel
+          sx={{
+            mb: "10px",
+            fontFamily: "Inter",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: theme.palette.primary.main,
+          }}
+        >
+          Last Name
+        </FormLabel>
+        <Input
+          type="email"
+          sx={{
+            width: "75%",
+            backgroundColor: "#FFA3BE",
+            borderRadius: "5px",
+            padding: "5px 15px",
+            mb: "20px",
+            fontFamily: "Inter",
+            fontSize: "15px",
+            fontWeight: "500",
+            color: theme.palette.primary.light,
+          }}
+          disableUnderline
+          placeholder="Enter your email id"
+        />
          <FormLabel
           sx={{
             mb: "10px",
@@ -58,41 +115,6 @@ function CreateUserPopup() {
           }}
           disableUnderline
           placeholder="Enter your email id"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <FormLabel
-          sx={{
-            mb: "10px",
-            fontFamily: "Inter",
-            fontSize: "18px",
-            fontWeight: "600",
-            color: theme.palette.primary.main,
-          }}
-        >
-          Email
-        </FormLabel>
-        <Input
-          type="email"
-          sx={{
-            width: "75%",
-            backgroundColor: "#FFA3BE",
-            borderRadius: "5px",
-            padding: "5px 15px",
-            mb: "20px",
-            fontFamily: "Inter",
-            fontSize: "15px",
-            fontWeight: "500",
-            color: theme.palette.primary.light,
-          }}
-          disableUnderline
-          placeholder="Enter your email id"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
         />
         <FormLabel
           sx={{
@@ -130,10 +152,6 @@ function CreateUserPopup() {
             }}
             disableUnderline
             placeholder="Enter your password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
           />
           <IconButton
             sx={{
@@ -205,7 +223,6 @@ function CreateUserPopup() {
             width: "75%",
             mt: "20px",
           }}
-          onClick={handleLogin}
         >
           Login
         </Button>

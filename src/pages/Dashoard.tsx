@@ -4,6 +4,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate, useOutlet, useOutletContext } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase"
+import CreateUserPopup from "../components/CreateUserPopup";
+
 
 interface ContextType  {
   user: {} | null;
@@ -41,6 +43,7 @@ const Dashboard : React.FC = () => {
           <LogoutIcon/> Logout
           </Button>
         </Box>
+        <CreateUserPopup />
       </TableContainer>
     </div>
   )
