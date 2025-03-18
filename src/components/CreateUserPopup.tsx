@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
   Container,
   FormLabel,
@@ -8,26 +8,57 @@ import {
   Typography,
   Button,
   useTheme,
+  colors,
+  Box,
 } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { FormData } from "../types/Types";
 
 function CreateUserPopup() {
   const theme = useTheme();
-  const [formData, setFormData] = useState<Object>({
+   const [showPassword, setShowPassword] = useState(false); 
+   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [formData, setFormData] = useState<FormData>({
     id: "",
     firstName: "",
     lastName: "",
     email: "",
-    department: "",
+    password:"",
+    confirmPassword:"",
+    department:"",
+    designation:""
   });
+
+  const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const {name , value} = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name] : value
+    }));
+  };
+
+  const handleCreateNewUser = () => {
+    if(formData.password === formData.confirmPassword){
+      console.log("FormData", formData); 
+    }
+    else{
+      console.log("password doesnot match");
+      
+    }
+    
+  }
 
 
 
   return (
-    <div>
+    <Container sx={{display:"flex", flexDirection:'column', position:"relative"}}>
+      <Container sx={{}}>
+      <Button sx={{color:theme.palette.success.main, backgroundColor:theme.palette.secondary.main, position:"relative", left:"100%"}}>X</Button>
+      </Container>
       <Container
         sx={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns:"1fr 1fr",
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: { xs: "center", md: "start" },
@@ -48,6 +79,7 @@ function CreateUserPopup() {
         </FormLabel>
         <Input
           type="text"
+          name="firstName"
           sx={{
             width: "75%",
             backgroundColor: "#FFA3BE",
@@ -59,6 +91,8 @@ function CreateUserPopup() {
             fontWeight: "500",
             color: theme.palette.primary.light,
           }}
+          value={formData.firstName}
+          onChange={handleInputChange}
           disableUnderline
           placeholder="Enter your first name"
         />
@@ -74,7 +108,8 @@ function CreateUserPopup() {
           Last Name
         </FormLabel>
         <Input
-          type="email"
+          type="text"
+          name="lastName"
           sx={{
             width: "75%",
             backgroundColor: "#FFA3BE",
@@ -86,6 +121,8 @@ function CreateUserPopup() {
             fontWeight: "500",
             color: theme.palette.primary.light,
           }}
+          value={formData.lastName}
+          onChange={handleInputChange}
           disableUnderline
           placeholder="Enter your email id"
         />
@@ -102,6 +139,7 @@ function CreateUserPopup() {
         </FormLabel>
         <Input
           type="email"
+          name="email"
           sx={{
             width: "75%",
             backgroundColor: "#FFA3BE",
@@ -113,6 +151,8 @@ function CreateUserPopup() {
             fontWeight: "500",
             color: theme.palette.primary.light,
           }}
+          value={formData.email}
+          onChange={handleInputChange}
           disableUnderline
           placeholder="Enter your email id"
         />
@@ -134,12 +174,13 @@ function CreateUserPopup() {
             justifyContent: "flex-start",
             backgroundColor: "#FFA3BE",
             borderRadius: "5px",
-            m: "0px",
+            m:'0px'
           }}
           disableGutters
         >
           <Input
-            type="password"
+            type={showPassword ? "text" : "password"}
+            name="password"
             sx={{
               width: "100%",
               backgroundColor: "#FFA3BE",
@@ -150,6 +191,8 @@ function CreateUserPopup() {
               fontWeight: "500",
               color: theme.palette.primary.light,
             }}
+            value={formData.password}
+            onChange={handleInputChange}
             disableUnderline
             placeholder="Enter your password"
           />
@@ -161,9 +204,145 @@ function CreateUserPopup() {
               color: theme.palette.primary.main,
               width: "15%",
             }}
+            onClick={() => setShowPassword((prev) => !prev)}
           >
-            <VisibilityOffIcon />
+           {showPassword ?  <VisibilityOffIcon /> :  <VisibilityOffIcon />}
           </IconButton>
+        </Container>
+        <FormLabel
+          sx={{
+            m: "10px 0px",
+            fontFamily: "Inter",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: theme.palette.primary.main,
+          }}
+        >
+          Retype Password
+        </FormLabel>
+        <Container
+          sx={{
+            width: "75%",
+            display: "flex",
+            justifyContent: "flex-start",
+            backgroundColor: "#FFA3BE",
+            borderRadius: "5px",
+            m: "20px 0px",
+          }}
+          disableGutters
+        >
+          <Input
+            type={showConfirmPassword ? "text" : "password"}
+            name="confirmPassword"
+            sx={{
+              width: "100%",
+              backgroundColor: "#FFA3BE",
+              borderRadius: "5px",
+              padding: "0px 15px",
+              fontFamily: "Inter",
+              fontSize: "15px",
+              fontWeight: "500",
+              color: theme.palette.primary.light,
+            }}
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+            disableUnderline
+            placeholder="Re-Enter your password"
+          />
+          <IconButton
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              left: "0px",
+              color: theme.palette.primary.main,
+              width: "15%",
+            }}
+            onClick={() => setShowConfirmPassword((prev) => !prev)}
+          >
+           {showConfirmPassword ?  <VisibilityOffIcon /> :  <VisibilityOffIcon />}
+          </IconButton>
+        </Container>
+        <FormLabel
+          sx={{
+            m: "0px",
+            fontFamily: "Inter",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: theme.palette.primary.main,
+          }}
+        >
+          Department
+        </FormLabel>
+        <Container
+          sx={{
+            width: "75%",
+            display: "flex",
+            justifyContent: "flex-start",
+            backgroundColor: "#FFA3BE",
+            borderRadius: "5px",
+            m: "0px",
+          }}
+          disableGutters
+        >
+          <Input
+          type="text"
+          name="department"
+          sx={{
+            width: "75%",
+            backgroundColor: "#FFA3BE",
+            borderRadius: "5px",
+            padding: "5px 15px",
+            fontFamily: "Inter",
+            fontSize: "15px",
+            fontWeight: "500",
+            color: theme.palette.primary.light,
+          }}
+          value={formData.department}
+          onChange={handleInputChange}
+          disableUnderline
+          placeholder="Enter your Department"
+        />
+        </Container>
+        <FormLabel
+          sx={{
+            m: "20px 0px",
+            fontFamily: "Inter",
+            fontSize: "18px",
+            fontWeight: "600",
+            color: theme.palette.primary.main,
+          }}
+        >
+          Designation
+        </FormLabel>
+        <Container
+          sx={{
+            width: "75%",
+            display: "flex",
+            justifyContent: "flex-start",
+            backgroundColor: "#FFA3BE",
+            borderRadius: "5px",
+            m: "20px 0px",
+          }}
+          disableGutters
+        >
+          <Input
+          type="text"
+          name="designation"
+          sx={{
+            width: "75%",
+            backgroundColor: "#FFA3BE",
+            borderRadius: "5px",
+            padding: "5px 15px",
+            fontFamily: "Inter",
+            fontSize: "15px",
+            fontWeight: "500",
+            color: theme.palette.primary.light,
+          }}
+          value={formData.designation}
+          onChange={handleInputChange}
+          disableUnderline
+          placeholder="Enter your Designation"
+        />
         </Container>
         <Container
           sx={{
@@ -176,42 +355,6 @@ function CreateUserPopup() {
           }}
           disableGutters
         >
-          <Container
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              width: "50%",
-              m: "0px",
-            }}
-            disableGutters
-          >
-            <Checkbox
-              size="small"
-              sx={{ color: theme.palette.primary.light }}
-            ></Checkbox>
-            <Typography
-              sx={{
-                color: theme.palette.primary.main,
-                fontFamily: "Inter",
-                fontSize: "15px",
-                fontWeight: "500",
-              }}
-            >
-              Remember Me
-            </Typography>
-          </Container>
-          <Typography
-            sx={{
-              color: theme.palette.primary.main,
-              fontFamily: "Inter",
-              fontSize: "15px",
-              fontWeight: "600",
-            }}
-          >
-            Forgot Password?
-          </Typography>
         </Container>
         <Button
           sx={{
@@ -223,36 +366,12 @@ function CreateUserPopup() {
             width: "75%",
             mt: "20px",
           }}
+          onClick={handleCreateNewUser}
         >
-          Login
+          create user
         </Button>
-        <Typography
-          sx={{
-            textAlign: "center",
-            width: "75%",
-            mt: "10px",
-            fontFamily: "Inter",
-            fontSize: "15px",
-            fontWeight: "500",
-            color: theme.palette.primary.main,
-          }}
-        >
-          Not registered yet?{" "}
-          <span style={{ color: "#474BCA" }}>Create an account</span>{" "}
-          <span
-            style={{
-              color: "#FFA3BE",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-            onClick={() => navigate("/signup")}
-          >
-            {" "}
-            SignUp
-          </span>{" "}
-        </Typography>
       </Container>
-    </div>
+    </Container>
   );
 }
 
