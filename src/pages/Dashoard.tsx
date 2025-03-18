@@ -52,7 +52,7 @@ const Dashboard : React.FC = () => {
           </Button>
         </Box>
        
-           {showCreateUserPopup ?  <Container sx={{
+           {showCreateUserPopup ?  <Container   sx={{
           maxWidth:"100vw !important",
           position: "absolute",
           width:"100vw",
@@ -63,7 +63,7 @@ const Dashboard : React.FC = () => {
           p:"5%",
           overflowY:"hidden"
         }}>
-          <CreateUserPopup /> 
+          <CreateUserPopup showCreateUserPopup={showCreateUserPopup} setShowCreateUserPopup={setShowCreateUserPopup}/> 
         </Container > : null }
            
       </TableContainer>

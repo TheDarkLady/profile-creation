@@ -14,7 +14,16 @@ import {
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { FormData } from "../types/Types";
 
-function CreateUserPopup() {
+interface Props {
+  showCreateUserPopup :boolean,
+  setShowCreateUserPopup :React.Dispatch<React.SetStateAction<boolean>>
+
+}
+
+const CreateUserPopup : React.FC<Props> =({
+  showCreateUserPopup,
+  setShowCreateUserPopup
+}) =>{
   const theme = useTheme();
    const [showPassword, setShowPassword] = useState(false); 
    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -48,12 +57,15 @@ function CreateUserPopup() {
     
   }
 
+  const handleClosePopup = () => {
+    setShowCreateUserPopup(false)
+  }
 
 
   return (
     <Container sx={{display:"flex", flexDirection:'column', position:"relative"}}>
       <Container sx={{}}>
-      <Button sx={{color:theme.palette.success.main, backgroundColor:theme.palette.secondary.main, position:"relative", left:"100%"}}>X</Button>
+      <Button sx={{color:theme.palette.success.main, backgroundColor:theme.palette.secondary.main, position:"relative", left:"100%"}} onClick={handleClosePopup}>X</Button>
       </Container>
       <Container
         sx={{
