@@ -1,12 +1,15 @@
-import { Box, Button, Container, Paper, TableContainer, Typography, useTheme } from "@mui/material"
+import { Box, Button, Container , Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useNavigate, useOutlet, useOutletContext } from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate,  useOutletContext } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase"
+import { auth, db } from "../firebase/firebase"
 import CreateUserPopup from "../components/CreateUserPopup";
-import { useState } from "react";
-import zIndex from "@mui/material/styles/zIndex";
+import { useEffect, useState } from "react";
+// import zIndex from "@mui/material/styles/zIndex";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 
 
 interface ContextType  {
@@ -22,7 +25,19 @@ const Dashboard : React.FC = () => {
   const navigate = useNavigate();
   const body = document.body;
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false)
+  const [createUsers, setCreateUsers] = useState([])
 
+  const fetchUsers = async() => {
+    const response = await getDocs(collection(db, "users"));
+    const userList = response.docs.map(doc => ({id:doc.id, ...doc.data()}))
+    console.log("userList",userList);
+    
+    setCreateUsers(userList)
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  }, [])
   const handleLogout = async() =>{
     try{
       const result = await signOut(auth)
@@ -40,6 +55,22 @@ const Dashboard : React.FC = () => {
    setShowCreateUserPopup(true)
   }
 
+  const handleUpdateUser = () => {
+
+  }
+
+  const handleDeleteUser = async(id) => {
+     try{
+      await deleteDoc(doc(db, 'users', id))
+      fetchUsers();
+     }
+     catch(e){
+      console.log("error:", e);
+      
+     }
+
+  }
+
   return(
     <div>
       <TableContainer sx={{position:"relative", height:"100vh", overflowX:"hidden"}}>
@@ -51,7 +82,6 @@ const Dashboard : React.FC = () => {
           <LogoutIcon/> Logout
           </Button>
         </Box>
-       
            {showCreateUserPopup ?  <Container   sx={{
           maxWidth:"100vw !important",
           position: "absolute",
@@ -59,13 +89,52 @@ const Dashboard : React.FC = () => {
           height:"100vh",
           top:"0",
           zIndex: 99,
-          backgroundColor:"#00000078",
+          backgroundColor:theme.palette.background.default,
           p:"5%",
           overflowY:"hidden"
         }}>
           <CreateUserPopup showCreateUserPopup={showCreateUserPopup} setShowCreateUserPopup={setShowCreateUserPopup}/> 
         </Container > : null }
-           
+           <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Id</TableCell>
+                <TableCell>First Name</TableCell>
+                <TableCell>Last Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Department</TableCell>
+                <TableCell>Designation</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody >
+              {createUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} sx={{textAlign:"center"}}>No user Created</TableCell>
+                </TableRow>
+              ):(
+                createUsers.map((createUser)=> {
+                  return(
+                    <TableRow key={createUser.id}>
+                    <TableCell>{createUser.id}</TableCell>
+                    <TableCell>{createUser.firstName}</TableCell>
+                    <TableCell>{createUser.lastName}</TableCell>
+                    <TableCell>{createUser.email}</TableCell>
+                    <TableCell>{createUser.department}</TableCell>
+                    <TableCell>{createUser.designation}</TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="primary" onClick={()=> handleUpdateUser(createUser.id)}>
+                        <EditIcon />
+                      </Button>
+                      <Button variant="contained" color="error" onClick={()=>handleDeleteUser(createUser.id)}>
+                        <DeleteIcon />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                  )
+                })
+              )}
+            </TableBody>
+           </Table>
       </TableContainer>
     </div>
   )

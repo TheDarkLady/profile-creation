@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { FormData } from "../types/Types";
+import { db } from "../firebase/firebase";
+import {collection , addDoc, setDoc, doc} from 'firebase/firestore'
 
 interface Props {
   showCreateUserPopup :boolean,
@@ -46,17 +48,37 @@ const CreateUserPopup : React.FC<Props> =({
     }));
   };
 
-  const handleCreateNewUser = () => {
-    if(formData.password === formData.confirmPassword){
-      console.log("FormData", formData); 
-    }
-    else{
-      console.log("password doesnot match");
-      
-    }
-    
-  }
+  const handleCreateNewUser = async () => {
+    if (formData.password === formData.confirmPassword) {
+      console.log("FormData", formData);
+      try {
+        const usersCollectionRef = collection(db, "users");
+        console.log("usersCollectionRef : ", usersCollectionRef);
+        
+        const response = await addDoc(usersCollectionRef, {
+          ...formData,
+          id: "", 
+        });
 
+        console.log("response :",response);
+        
+        const newUserId = response.id;
+  
+        await setDoc(doc(db, "users", newUserId), {
+          ...formData,
+          id: newUserId,  
+        });
+  
+        console.log("User created with ID:", newUserId);
+        setShowCreateUserPopup(false);
+      } catch (e) {
+        console.log("Firestore Error:", e);
+      }
+    } else {
+      console.log("Passwords do not match");
+    }
+  };
+  
   const handleClosePopup = () => {
     setShowCreateUserPopup(false)
   }
@@ -65,7 +87,7 @@ const CreateUserPopup : React.FC<Props> =({
   return (
     <Container sx={{display:"flex", flexDirection:'column', position:"relative"}}>
       <Container sx={{}}>
-      <Button sx={{color:theme.palette.success.main, backgroundColor:theme.palette.secondary.main, position:"relative", left:"100%"}} onClick={handleClosePopup}>X</Button>
+      <Button sx={{color:theme.palette.primary.main, backgroundColor:theme.palette.success.main, position:"relative", left:"100%"}} onClick={handleClosePopup}>X</Button>
       </Container>
       <Container
         sx={{
