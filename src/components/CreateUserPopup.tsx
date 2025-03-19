@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   Container,
   FormLabel,
@@ -14,85 +14,105 @@ import {
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { FormData } from "../types/Types";
 import { db } from "../firebase/firebase";
-import {collection , addDoc, setDoc, doc} from 'firebase/firestore'
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 
 interface Props {
-  showCreateUserPopup :boolean,
-  setShowCreateUserPopup :React.Dispatch<React.SetStateAction<boolean>>
-
+  setCreateUsers: React.Dispatch<React.SetStateAction<[]>>;
+  setShowCreateUserPopup: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedUser?: any;
 }
 
-const CreateUserPopup : React.FC<Props> =({
-  showCreateUserPopup,
-  setShowCreateUserPopup
-}) =>{
+const CreateUserPopup: React.FC<Props> = ({
+  setCreateUsers,
+  setShowCreateUserPopup,
+  selectedUser,
+}) => {
   const theme = useTheme();
-   const [showPassword, setShowPassword] = useState(false); 
-   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password:"",
-    confirmPassword:"",
-    department:"",
-    designation:""
+    id: selectedUser?.id || "",
+    firstName: selectedUser?.firstName || "",
+    lastName: selectedUser?.lastName || "",
+    email: selectedUser?.email || "",
+    password: selectedUser?.password || "",
+    confirmPassword: selectedUser?.confirmPassword || "",
+    department: selectedUser?.department || "",
+    designation: selectedUser?.designation || "",
   });
 
-  const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
-    const {name , value} = e.target;
-    setFormData(prevState => ({
+  useEffect(() => {
+    if (selectedUser) {
+      setFormData(selectedUser);
+    } else {
+      setFormData({
+        id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        department: "",
+        designation: "",
+      });
+    }
+  }, [selectedUser]);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
       ...prevState,
-      [name] : value
+      [name]: value,
     }));
   };
 
-  const handleCreateNewUser = async () => {
-    if (formData.password === formData.confirmPassword) {
-      console.log("FormData", formData);
-      try {
-        const usersCollectionRef = collection(db, "users");
-        console.log("usersCollectionRef : ", usersCollectionRef);
-        
-        const response = await addDoc(usersCollectionRef, {
-          ...formData,
-          id: "", 
-        });
-
-        console.log("response :",response);
-        
-        const newUserId = response.id;
-  
-        await setDoc(doc(db, "users", newUserId), {
-          ...formData,
-          id: newUserId,  
-        });
-  
-        console.log("User created with ID:", newUserId);
-        setShowCreateUserPopup(false);
-      } catch (e) {
-        console.log("Firestore Error:", e);
+  const handleCreateNewUser = async (e) => {
+    e.preventDefault();
+    try {
+      if (selectedUser) {
+        // Updating user
+        await setDoc(doc(db, "users", formData.id), formData);
+        setCreateUsers((prevUsers) =>
+          prevUsers.map((user) => (user.id === formData.id ? formData : user))
+        );
+      } else {
+        // Creating new user
+        const response = await addDoc(collection(db, "users"), formData);
+        const newUser = { ...formData, id: response.id };
+        await setDoc(doc(db, "users", response.id), newUser);
+        setCreateUsers((prevUsers) => [...prevUsers, newUser]);
       }
-    } else {
-      console.log("Passwords do not match");
+      setShowCreateUserPopup(false);
+    } catch (error) {
+      console.error("Error saving user:", error);
     }
   };
-  
-  const handleClosePopup = () => {
-    setShowCreateUserPopup(false)
-  }
 
+  const handleClosePopup = () => {
+    setShowCreateUserPopup(false);
+  };
 
   return (
-    <Container sx={{display:"flex", flexDirection:'column', position:"relative"}}>
+    <Container
+      sx={{ display: "flex", flexDirection: "column", position: "relative" }}
+    >
       <Container sx={{}}>
-      <Button sx={{color:theme.palette.primary.main, backgroundColor:theme.palette.success.main, position:"relative", left:"100%"}} onClick={handleClosePopup}>X</Button>
+        <Button
+          sx={{
+            color: theme.palette.primary.main,
+            backgroundColor: theme.palette.success.main,
+            position: "relative",
+            left: "100%",
+          }}
+          onClick={handleClosePopup}
+        >
+          X
+        </Button>
       </Container>
       <Container
         sx={{
           display: "grid",
-          gridTemplateColumns:"1fr 1fr",
+          gridTemplateColumns: "1fr 1fr",
           flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: { xs: "center", md: "start" },
@@ -100,7 +120,7 @@ const CreateUserPopup : React.FC<Props> =({
         }}
         disableGutters
       >
-         <FormLabel
+        <FormLabel
           sx={{
             mb: "10px",
             fontFamily: "Inter",
@@ -130,7 +150,7 @@ const CreateUserPopup : React.FC<Props> =({
           disableUnderline
           placeholder="Enter your first name"
         />
-         <FormLabel
+        <FormLabel
           sx={{
             mb: "10px",
             fontFamily: "Inter",
@@ -160,7 +180,7 @@ const CreateUserPopup : React.FC<Props> =({
           disableUnderline
           placeholder="Enter your email id"
         />
-         <FormLabel
+        <FormLabel
           sx={{
             mb: "10px",
             fontFamily: "Inter",
@@ -208,7 +228,7 @@ const CreateUserPopup : React.FC<Props> =({
             justifyContent: "flex-start",
             backgroundColor: "#FFA3BE",
             borderRadius: "5px",
-            m:'0px'
+            m: "0px",
           }}
           disableGutters
         >
@@ -240,7 +260,7 @@ const CreateUserPopup : React.FC<Props> =({
             }}
             onClick={() => setShowPassword((prev) => !prev)}
           >
-           {showPassword ?  <VisibilityOffIcon /> :  <VisibilityOffIcon />}
+            {showPassword ? <VisibilityOffIcon /> : <VisibilityOffIcon />}
           </IconButton>
         </Container>
         <FormLabel
@@ -293,7 +313,11 @@ const CreateUserPopup : React.FC<Props> =({
             }}
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
-           {showConfirmPassword ?  <VisibilityOffIcon /> :  <VisibilityOffIcon />}
+            {showConfirmPassword ? (
+              <VisibilityOffIcon />
+            ) : (
+              <VisibilityOffIcon />
+            )}
           </IconButton>
         </Container>
         <FormLabel
@@ -319,23 +343,23 @@ const CreateUserPopup : React.FC<Props> =({
           disableGutters
         >
           <Input
-          type="text"
-          name="department"
-          sx={{
-            width: "75%",
-            backgroundColor: "#FFA3BE",
-            borderRadius: "5px",
-            padding: "5px 15px",
-            fontFamily: "Inter",
-            fontSize: "15px",
-            fontWeight: "500",
-            color: theme.palette.primary.light,
-          }}
-          value={formData.department}
-          onChange={handleInputChange}
-          disableUnderline
-          placeholder="Enter your Department"
-        />
+            type="text"
+            name="department"
+            sx={{
+              width: "75%",
+              backgroundColor: "#FFA3BE",
+              borderRadius: "5px",
+              padding: "5px 15px",
+              fontFamily: "Inter",
+              fontSize: "15px",
+              fontWeight: "500",
+              color: theme.palette.primary.light,
+            }}
+            value={formData.department}
+            onChange={handleInputChange}
+            disableUnderline
+            placeholder="Enter your Department"
+          />
         </Container>
         <FormLabel
           sx={{
@@ -360,23 +384,23 @@ const CreateUserPopup : React.FC<Props> =({
           disableGutters
         >
           <Input
-          type="text"
-          name="designation"
-          sx={{
-            width: "75%",
-            backgroundColor: "#FFA3BE",
-            borderRadius: "5px",
-            padding: "5px 15px",
-            fontFamily: "Inter",
-            fontSize: "15px",
-            fontWeight: "500",
-            color: theme.palette.primary.light,
-          }}
-          value={formData.designation}
-          onChange={handleInputChange}
-          disableUnderline
-          placeholder="Enter your Designation"
-        />
+            type="text"
+            name="designation"
+            sx={{
+              width: "75%",
+              backgroundColor: "#FFA3BE",
+              borderRadius: "5px",
+              padding: "5px 15px",
+              fontFamily: "Inter",
+              fontSize: "15px",
+              fontWeight: "500",
+              color: theme.palette.primary.light,
+            }}
+            value={formData.designation}
+            onChange={handleInputChange}
+            disableUnderline
+            placeholder="Enter your Designation"
+          />
         </Container>
         <Container
           sx={{
@@ -388,8 +412,7 @@ const CreateUserPopup : React.FC<Props> =({
             m: "0px",
           }}
           disableGutters
-        >
-        </Container>
+        ></Container>
         <Button
           sx={{
             backgroundColor: "#474BCA",
@@ -402,11 +425,11 @@ const CreateUserPopup : React.FC<Props> =({
           }}
           onClick={handleCreateNewUser}
         >
-          create user
+          {selectedUser ? "update user" : "create user"}
         </Button>
       </Container>
     </Container>
   );
-}
+};
 
 export default CreateUserPopup;
