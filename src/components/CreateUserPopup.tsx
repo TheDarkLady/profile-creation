@@ -4,12 +4,8 @@ import {
   FormLabel,
   Input,
   IconButton,
-  Checkbox,
-  Typography,
   Button,
-  useTheme,
-  colors,
-  Box,
+  useTheme
 } from "@mui/material";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { FormData } from "../types/Types";
@@ -17,9 +13,9 @@ import { db } from "../firebase/firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 
 interface Props {
-  setCreateUsers: React.Dispatch<React.SetStateAction<[]>>;
+  setCreateUsers: React.Dispatch<React.SetStateAction<FormData[]>>;
   setShowCreateUserPopup: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedUser?: any;
+  selectedUser?: FormData | null;
 }
 
 const CreateUserPopup: React.FC<Props> = ({
@@ -66,8 +62,7 @@ const CreateUserPopup: React.FC<Props> = ({
     }));
   };
 
-  const handleCreateNewUser = async (e) => {
-    e.preventDefault();
+  const handleCreateNewUser = async () => {
     try {
       if (selectedUser) {
         // Updating user

@@ -8,7 +8,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
   useTheme,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -22,10 +21,18 @@ import CreateUserPopup from "../components/CreateUserPopup";
 import { useEffect, useState } from "react";
 // import zIndex from "@mui/material/styles/zIndex";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { FormData } from "../types/Types";
+
+interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
 
 interface ContextType {
-  user: {} | null;
-  setUser: React.Dispatch<React.SetStateAction<{} | null>>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const Dashboard: React.FC = () => {
@@ -36,18 +43,24 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const body = document.body;
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
-  const [createUsers, setCreateUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [createUsers, setCreateUsers] =useState<FormData[]>([]);;
+  const [selectedUser, setSelectedUser] = useState<FormData | null>(null);
 
   const fetchUsers = async () => {
     try {
       const response = await getDocs(collection(db, "users"));
-      const userList = response.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      console.log("userList", userList);
-
+      const userList: FormData[] = response.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          firstName: data.firstName || "",
+          lastName: data.lastName || "",
+          email: data.email || "",
+          password: data.password || "",
+          department: data.department || "",
+          designation: data.designation || "",
+        };
+      });
       setCreateUsers(userList);
     } catch (e) {
       console.error("Error fetching users:", e);
@@ -73,12 +86,12 @@ const Dashboard: React.FC = () => {
     setShowCreateUserPopup(true);
   };
 
-  const handleUpdateUser = (user) => {
+  const handleUpdateUser = (user : FormData) => {
     setSelectedUser(user);
     setShowCreateUserPopup(true);
   };
 
-  const handleDeleteUser = async (id) => {
+  const handleDeleteUser = async (id:string) => {
     try {
       await deleteDoc(doc(db, "users", id));
       // Remove user from state

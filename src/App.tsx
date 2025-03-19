@@ -5,7 +5,6 @@ import Signup from './pages/Signup'
 // import Dashboard from './pages/Dashoard'
 import Dashboard from './pages/Dashoard'
 import AppLayout from './components/AppLayout'
-import { createTheme } from '@mui/material/styles'
 import { ThemeProvider , CssBaseline } from '@mui/material'
 import { lightTheme, darkTheme } from './components/ui/theme'
 import useMediaQuery from "@mui/material/useMediaQuery";
