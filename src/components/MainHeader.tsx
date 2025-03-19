@@ -1,11 +1,13 @@
-import { Avatar, Divider, Switch, Toolbar, Typography, useTheme } from "@mui/material";
+import { Divider, Switch, Toolbar, Typography, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 import { useState } from "react";
+import {User} from "../types/Types"
 
 interface Props {
+  mode:boolean;
   setMode: React.Dispatch<React.SetStateAction<boolean>>;
-  user: React.Dispatch<React.SetStateAction<{} | null>>;
+  user: User | null
 }
 
 const MainHeader: React.FC<Props> = ({ setMode, user }) => {
@@ -34,14 +36,11 @@ const MainHeader: React.FC<Props> = ({ setMode, user }) => {
         </Typography>
         <Switch
           checked={checked}
-          onChange={(e) => {
+          onChange={() => {
             console.log("Toggle Clicked");
             handleChange()
           }}
         />
-        <IconButton>
-        {user ? <Avatar alt="profile pic" src={user.profilePic} /> : <Avatar />}
-        </IconButton>
       </Toolbar>
       <Divider />
     </div>

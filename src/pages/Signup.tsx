@@ -221,7 +221,7 @@ const Signup = () => {
                   width: "50%",
                   mt: "20px",
                 }}
-                onClick={handleSignUp}
+                onClick={()=> handleSignUp}
               >
                 Sign Up
               </Button>

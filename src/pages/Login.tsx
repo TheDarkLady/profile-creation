@@ -17,6 +17,7 @@ import { useState } from "react";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { User } from "../types/Types";
 
 const Login = () => {
 

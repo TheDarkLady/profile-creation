@@ -23,7 +23,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <AppLayout  setMode={setMode} />,
+      element: <AppLayout  mode={ mode} setMode={setMode} />,
       children: [
         { path: '/', element: <Dashboard />},
         { path: '/login', element: <Login /> },

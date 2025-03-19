@@ -27,7 +27,12 @@ const Header: React.FC<Props> = ({ setMode }) => {
   };
 
   const handleNavigate = () => {
-    isloginpage ? navigate('/signup') : navigate('/login')
+    if(isloginpage){
+      navigate('/signup')
+    }
+    else{
+      navigate('/login')
+    }
   }
   return (
     <div className="header-container">
@@ -37,7 +42,7 @@ const Header: React.FC<Props> = ({ setMode }) => {
         </Typography>
         <Switch
                   checked={checked}
-                  onChange={(e) => {
+                  onChange={() => {
                     console.log("Toggle Clicked");
                     handleChange()
                   }}

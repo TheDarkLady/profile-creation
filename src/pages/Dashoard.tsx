@@ -21,14 +21,7 @@ import CreateUserPopup from "../components/CreateUserPopup";
 import { useEffect, useState } from "react";
 // import zIndex from "@mui/material/styles/zIndex";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { FormData } from "../types/Types";
-
-interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-}
+import { FormData , User } from "../types/Types";
 
 interface ContextType {
   user: User | null;
