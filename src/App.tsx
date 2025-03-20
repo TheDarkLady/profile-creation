@@ -1,17 +1,17 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './App.css'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./App.css";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 // import Dashboard from './pages/Dashoard'
-import Dashboard from './pages/Dashoard'
-import AppLayout from './components/AppLayout'
-import { ThemeProvider , CssBaseline } from '@mui/material'
-import { lightTheme, darkTheme } from './components/ui/theme'
+import Dashboard from "./pages/Dashoard";
+import AppLayout from "./components/AppLayout";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { lightTheme, darkTheme } from "./components/ui/theme";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useState } from 'react'
+import { useState } from "react";
 
 function App() {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [mode, setMode] = useState<boolean>(() => prefersDarkMode);
 
   // const appTheme = createTheme({
@@ -20,17 +20,20 @@ function App() {
   //   }
   // });
 
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <AppLayout  mode={ mode} setMode={setMode} />,
-      children: [
-        { path: '/', element: <Dashboard />},
-        { path: '/login', element: <Login /> },
-        { path: '/signup', element: <Signup /> }
-      ]
-    },
-  ]);
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <AppLayout mode={mode} setMode={setMode} />,
+        children: [
+          { path: "/", element: <Dashboard /> },
+          { path: "/login", element: <Login /> },
+          { path: "/signup", element: <Signup /> },
+        ],
+      },
+    ],
+    { basename: "/profile-creation" }
+  );
 
   return (
     <ThemeProvider theme={mode ? darkTheme : lightTheme}>
