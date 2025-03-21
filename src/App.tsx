@@ -26,8 +26,8 @@ function App() {
         path: "/",
         element: <AppLayout mode={mode} setMode={setMode} />,
         children: [
-          { path: "/", element: <Dashboard /> },
-          { path: "/login", element: <Login /> },
+          { path: "/dashboard", element: <Dashboard /> },
+          { path: "/", element: <Login /> },
           { path: "/signup", element: <Signup /> },
         ],
       },

@@ -148,12 +148,13 @@ const Dashboard: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Department</TableCell>
-              <TableCell>Designation</TableCell>
+              <TableCell sx={{color:theme.palette.primary.main}}>Id</TableCell>
+              <TableCell sx={{color:theme.palette.primary.main}}>First Name</TableCell>
+              <TableCell sx={{color:theme.palette.primary.main}}>Last Name</TableCell>
+              <TableCell sx={{color:theme.palette.primary.main}}>Email</TableCell>
+              <TableCell sx={{color:theme.palette.primary.main}}>Department</TableCell>
+              <TableCell sx={{color:theme.palette.primary.main}}>Designation</TableCell>
+              <TableCell sx={{color:theme.palette.primary.main}}>Edit/Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -166,13 +167,13 @@ const Dashboard: React.FC = () => {
             ) : (
               createUsers.map((createUser) => (
                 <TableRow key={createUser.id}>
-                  <TableCell>{createUser.id}</TableCell>
-                  <TableCell>{createUser.firstName}</TableCell>
-                  <TableCell>{createUser.lastName}</TableCell>
-                  <TableCell>{createUser.email}</TableCell>
-                  <TableCell>{createUser.department}</TableCell>
-                  <TableCell>{createUser.designation}</TableCell>
-                  <TableCell>
+                  <TableCell sx={{color:theme.palette.primary.main}}>{createUser.id}</TableCell>
+                  <TableCell sx={{color:theme.palette.primary.main}}>{createUser.firstName}</TableCell>
+                  <TableCell sx={{color:theme.palette.primary.main}}>{createUser.lastName}</TableCell>
+                  <TableCell sx={{color:theme.palette.primary.main}}>{createUser.email}</TableCell>
+                  <TableCell sx={{color:theme.palette.primary.main}}>{createUser.department}</TableCell>
+                  <TableCell sx={{color:theme.palette.primary.main}}>{createUser.designation}</TableCell>
+                  <TableCell sx={{display:"flex",flexDirection:"row", flexWrap:"nowrap", justifyContent:"start", gap:"10px" }}>
                     <Button
                       variant="contained"
                       color="primary"

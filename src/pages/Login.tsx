@@ -33,7 +33,7 @@ const Login = () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log("login successful:", response);
-      navigate("/");
+      navigate("/dashboard");
     } catch (e) {
       console.log("login error:", e);
     }
@@ -57,7 +57,7 @@ const Login = () => {
         email:user.email,
         profilePic: user.photoURL
       })
-      navigate("/")
+      navigate("/dashboard")
     }
     catch(e){
       console.log("Google signin error:", e);
