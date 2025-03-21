@@ -34,7 +34,7 @@ const Dashboard: React.FC = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const body = document.body;
+  // const body = document.body;
   const [showCreateUserPopup, setShowCreateUserPopup] = useState(false);
   const [createUsers, setCreateUsers] =useState<FormData[]>([]);;
   const [selectedUser, setSelectedUser] = useState<FormData | null>(null);
