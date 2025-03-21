@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
     }
   };
   const handleCreateNewUser = () => {
-    body.style.overflowY = "hidden";
+    // body.style.overflowY = "hidden";
     setSelectedUser(null);
     setShowCreateUserPopup(true);
   };
