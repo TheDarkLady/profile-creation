@@ -1,39 +1,16 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import "./App.css";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-// import Dashboard from './pages/Dashoard'
-import Dashboard from "./pages/Dashoard";
-import AppLayout from "./components/AppLayout";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { lightTheme, darkTheme } from "./components/ui/theme";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
+import  createAppRouter from "./Routes"
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [mode, setMode] = useState<boolean>(() => prefersDarkMode);
 
-  // const appTheme = createTheme({
-  //   palette: {
-  //     mode: mode ? "dark" : "light"
-  //   }
-  // });
-
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <AppLayout mode={mode} setMode={setMode} />,
-        children: [
-          { path: "/dashboard", element: <Dashboard /> },
-          { path: "/", element: <Login /> },
-          { path: "/signup", element: <Signup /> },
-        ],
-      },
-    ],
-    { basename: "/profile-creation" }
-  );
+  const router = createAppRouter(mode, setMode); // Get the router instance
 
   return (
     <ThemeProvider theme={mode ? darkTheme : lightTheme}>
